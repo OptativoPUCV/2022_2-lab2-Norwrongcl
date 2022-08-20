@@ -34,22 +34,42 @@ List * createList() {
 }
 
 void * firstList(List * list) {
+	if (list-> current && list->head){
+		list-> current= list-> head;
+		return list-> head-> data;
+	}
     return NULL;
 }
 
 void * nextList(List * list) {
+	if (list-> current && list->current ->next){
+		list-> current= list-> current-> next;
+		return list-> current-> data;
+	}
     return NULL;
 }
 
 void * lastList(List * list) {
+	if (list-> tail && list->tail ->data){
+		list-> current= list-> tail;
+		return list-> tail-> data;
+	}
     return NULL;
 }
 
 void * prevList(List * list) {
+	if (list-> current && list->current ->prev){
+		list-> current= list-> current-> prev;
+		return list-> current-> data;
+	}
     return NULL;
 }
 
 void pushFront(List * list, void * data) {
+	Node * node= createNode(data);
+  node-> next= list-> head;
+  list-> head= node;
+  list-> tail= node;
 }
 
 void pushBack(List * list, void * data) {
@@ -58,6 +78,10 @@ void pushBack(List * list, void * data) {
 }
 
 void pushCurrent(List * list, void * data) {
+	Node* node= createNode(data);
+	node-> prev= list-> current;
+	list-> current-> next= node;
+	list-> tail= node;
 }
 
 void * popFront(List * list) {
@@ -71,7 +95,8 @@ void * popBack(List * list) {
 }
 
 void * popCurrent(List * list) {
-    return NULL;
+	int deleted= list-> current;
+	list-> current= list-> current-> prev;
 }
 
 void cleanList(List * list) {
